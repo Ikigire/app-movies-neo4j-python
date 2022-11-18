@@ -100,7 +100,6 @@ class AuthDAO:
     # end::decode[]
 
     def authenticate(self, email, plain_password):
-        # TODO: Implement Login functionality
         def get_user(tx, email):
             # Get the result
             result = tx.run("MATCH (u:User {email: $email}) RETURN u", email=email)
