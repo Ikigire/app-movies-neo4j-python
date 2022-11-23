@@ -41,7 +41,7 @@ def get_movie_details(movie_id):
 
     # Get the Movie
     movie = dao.find_by_id(movie_id, user_id)
-
+    print("Movie: ", movie)
     return jsonify(movie)
 
 

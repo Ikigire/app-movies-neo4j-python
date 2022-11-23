@@ -31,7 +31,7 @@ class AuthDAO:
         encrypted = bcrypt.hashpw(plain_password.encode("utf8"), bcrypt.gensalt()).decode('utf8')
 
         def create_user(tx, email, encrypted, name):
-            return tx.run(""" // (1)
+            cypher = """
                 CREATE (u:User {
                     userId: randomUuid(),
                     email: $email,
@@ -39,7 +39,9 @@ class AuthDAO:
                     name: $name
                 })
                 RETURN u
-            """,
+            """
+            
+            return tx.run(cypher,
             email=email, encrypted=encrypted, name=name # (2)
             ).single() # (3)
 
