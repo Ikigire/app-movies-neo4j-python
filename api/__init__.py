@@ -58,10 +58,10 @@ def create_app(test_config=None):
     # JWT
     jwt = JWTManager(app)
 
-    CORS(app, 
-        resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:3000"]}}
-    )
-    # CORS(app)
+    # CORS(app, 
+    #     resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:3000"]}}
+    # )
+    CORS(app)
     
     # Register Routes
     app.register_blueprint(auth_routes)
