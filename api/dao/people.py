@@ -30,7 +30,7 @@ class PeopleDAO:
                 cypher += "WHERE p.name CONTAINS $q"
 
             cypher += """
-            RETURN p {{ .* }} AS person
+            RETURN p {{ .tmdbId, .imdbId, .bornIn, .name, .bio, .poster, .url, }} AS person
             ORDER BY p.`{0}` {1}
             SKIP $skip
             LIMIT $limit
@@ -80,7 +80,7 @@ class PeopleDAO:
     # tag::getSimilarPeople[]
     def get_similar_people(self, id, limit = 6, skip = 0):
         # Get a list of similar people to the person by their id
-        def get_similar_people(tx, id, skip, limit):
+        def get_sim_people(tx, id, skip, limit):
             result = tx.run("""
                 MATCH (:Person {tmdbId: $id})-[:ACTED_IN|DIRECTED]->(m)<-[r:ACTED_IN|DIRECTED]-(p)
                 RETURN p {
@@ -97,5 +97,5 @@ class PeopleDAO:
             return [ row.get("person") for row in result ]
 
         with self.driver.session() as session:
-            return session.execute_read(get_similar_people, id, skip, limit)
+            return session.execute_read(get_sim_people, id, skip, limit)
     # end::getSimilarPeople[]
